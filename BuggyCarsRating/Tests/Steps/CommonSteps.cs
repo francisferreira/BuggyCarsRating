@@ -13,11 +13,13 @@ namespace BuggyCarsRating.Tests
     public sealed class CommonSteps
     {
         private readonly IWebDriver driver;
+        private readonly ScenarioContext scenario;
         private readonly HomePage page;
 
-        public CommonSteps(IWebDriver driver)
+        public CommonSteps(IWebDriver driver, ScenarioContext scenario)
         {
             this.driver = driver;
+            this.scenario = scenario;
             page = new HomePage(driver);
         }
 
@@ -49,7 +51,7 @@ namespace BuggyCarsRating.Tests
                 case "register":
                     this.page.Header.Register.Click(); break;
                 default:
-                    throw new InvalidOperationException($"Invalid page called by SpecFlow step: {page}");
+                    throw new InvalidOperationException($"Invalid regex match in SpecFlow step: {page} != [home|maker|model|overall|profile|register]");
             }
 
             Utils.WaitPageToLoad();
@@ -61,13 +63,11 @@ namespace BuggyCarsRating.Tests
             switch (action)
             {
                 case "login":
-                    var username = ConfigurationManager.AppSettings["username"];
-                    var password = ConfigurationManager.AppSettings["userpass"];
-                    page.Login(username, password); break;
+                    page.Login(Hooks.Username, Hooks.Password); break;
                 case "logout":
                     page.Logout(); break;
                 default:
-                    throw new InvalidOperationException($"Invalid action called by SpecFlow step: {action}");
+                    throw new InvalidOperationException($"Invalid regex match in SpecFlow step: {action} != [login|logout]");
             }
         }
 
@@ -92,10 +92,13 @@ namespace BuggyCarsRating.Tests
         }
 
         [Then(@"the ""(.*)"" message pops up")]
-        public void ThenTheWarningPopsUp(string error)
+        public void ThenTheMessagePopsUp(string error)
         {
             var alert = driver.FindElement(By.XPath($"//div[contains(@class,'alert') and contains(text(),'{error}')]"));
             Assert.IsTrue(alert.Displayed, $"The expected warning is not displayed: '{error}'");
+
+            if (scenario.ScenarioInfo.Title == "Change User Password Info")
+                Hooks.Password = ConfigurationManager.AppSettings["NewPassword"];
         }
 
         [Then(@"the ""(.*)"" page is displayed")]

@@ -34,8 +34,14 @@ namespace BuggyCarsRating.Tests
                 case "number of votes":
                     totalVotes = page.TotalVotes; break;
                 default:
-                    throw new InvalidOperationException($"Invalid stat called by SpecFlow step: {stat}");
+                    throw new InvalidOperationException($"Invalid regex match in SpecFlow step: {stat} != [first comment date|number of comments|number of votes]");
             }
+        }
+
+        [Given(@"the model rank \#(.*)'s page is displayed")]
+        public void GivenTheModelRankPageIsDisplayed(int rank)
+        {
+            Utils.ViewModelByRating(rank);
         }
 
         [When(@"vote is cast without comment")]
@@ -61,7 +67,7 @@ namespace BuggyCarsRating.Tests
                 case "number of comments":
                     Assert.AreEqual(totalComments, page.TotalComments, "Number of comments is not the same"); break;
                 default:
-                    throw new InvalidOperationException($"Invalid stat called by SpecFlow step: {stat}");
+                    throw new InvalidOperationException($"Invalid regex match in SpecFlow step: {stat} != [first comment date|number of comments]");
             }
         }
 
@@ -75,12 +81,12 @@ namespace BuggyCarsRating.Tests
                 case "number of votes":
                     Assert.AreEqual(totalVotes + 1, page.TotalVotes, "Number of votes did not increase by one"); break;
                 default:
-                    throw new InvalidOperationException($"Invalid stat called by SpecFlow step: {stat}");
+                    throw new InvalidOperationException($"Invalid regex match in SpecFlow step: {stat} != [number of comments|number of votes]");
             }
         }
 
         [Then(@"the first comment ""(.*)"" (?:is|are) correct")]
-        public void ThenTheIsCorrect(string stat)
+        public void ThenTheFirstCommentIsAreCorrect(string stat)
         {
             var topComment = page.GetLatestComment();
             var dateDiff = (DateTime.Now - DateTime.Parse(topComment.Date)).Duration();
@@ -95,18 +101,18 @@ namespace BuggyCarsRating.Tests
                 case "contents":
                     Assert.AreEqual(contents, topComment.Contents, "Comment contents are not as expected"); break;
                 default:
-                    throw new InvalidOperationException($"Invalid stat called by SpecFlow step: {stat}");
+                    throw new InvalidOperationException($"Invalid regex match in SpecFlow step: {stat} != [date|author|contents]");
             }
         }
 
-        [Then(@"the vote cannot be cast")]
-        public void ThenTheVoteCannotBeCast()
+        [Then(@"the user cannot cast their vote")]
+        public void ThenTheUserCannotCastTheirVote()
         {
             Assert.IsFalse(page.IsVotePossible(out feedback), "Voting is allowed when it should be denied");
         }
 
-        [Then(@"the page says ""(.*)""")]
-        public void ThenThePageSays(string feedback)
+        [Then(@"""(.*)"" is shown")]
+        public void ThenIsShown(string feedback)
         {
             Assert.AreEqual(feedback, this.feedback, $"The expected message is not displayed: {feedback}");
         }

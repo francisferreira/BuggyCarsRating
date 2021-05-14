@@ -121,7 +121,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given(string.Format("the \"{0}\" page is displayed", page), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 6
-  testRunner.When("the mid-page number \"(round down)\" is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.When("the mid-page is reached via textbox", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 7
   testRunner.Then("the expected page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -130,7 +130,7 @@ this.ScenarioInitialize(scenarioInfo);
   testRunner.When("the \"next\" page button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 9
-  testRunner.Then("the current page number \"increases\" by one", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then("the page number \"increases\" by one", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 10
  testRunner.Given("the \"last\" page is reached this way", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
@@ -139,7 +139,7 @@ this.ScenarioInitialize(scenarioInfo);
   testRunner.When("the \"next\" page button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 12
-  testRunner.Then("the current page number \"remains\" as is", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then("the page number \"remains\" as is", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -199,7 +199,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given(string.Format("the \"{0}\" page is displayed", page), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 20
-  testRunner.When("the mid-page number \"(round up)\" is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.When("the mid-page is reached via textbox", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 21
   testRunner.Then("the expected page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -208,7 +208,7 @@ this.ScenarioInitialize(scenarioInfo);
   testRunner.When("the \"previous\" page button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 23
-  testRunner.Then("the current page number \"decreases\" by one", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then("the page number \"decreases\" by one", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 24
  testRunner.Given("the \"first\" page is reached this way", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
@@ -217,7 +217,7 @@ this.ScenarioInitialize(scenarioInfo);
   testRunner.When("the \"previous\" page button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 26
-  testRunner.Then("the current page number \"remains\" as is", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then("the page number \"remains\" as is", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

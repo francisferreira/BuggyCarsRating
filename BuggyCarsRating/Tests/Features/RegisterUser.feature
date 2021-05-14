@@ -4,28 +4,31 @@ Feature: Register User
 
 Scenario: Register User With Unique Id
 	Given the "register" page is displayed
-	  And the fields are filled as per app config
-	  And the unique identifier is appended to login name
+	  And the registration form is filled out
+	  And the login name "is" unique
 	 When the "Register" button is clicked
 	 Then the "Registration is successful" message pops up
-	  And login "can" be performed as expected
+	  And login "works" with those creds
 
 Scenario: Register User With Same Id
 	Given the "register" page is displayed
-	  And the fields are filled as per app config
+	  And the registration form is filled out
+	  And the login name "is not" unique
 	 When the "Register" button is clicked
 	 Then the "User already exists" message pops up
-	  And login "cannot" be performed as expected
+	  And login "fails" with those creds
 
 Scenario: Cancel User Registration
 	Given the "register" page is displayed
-	  And the fields are filled as per app config
+	  And the registration form is filled out
+	  And the login name "is" unique
 	 When the "Cancel" button is clicked
 	 Then the "home" page is displayed
+	  And login "fails" with those creds
 
 Scenario: Alert Required Input
 	Given the "register" page is displayed
-	  And the fields are filled as per app config
+	  And the registration form is filled out
 	 When the "<field>" field is cleared
 	 Then the "<message>" message pops up
 	  And the "Register" button is disabled

@@ -126,10 +126,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the \"register\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 7
-   testRunner.And("the fields are filled as per app config", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("the registration form is filled out", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 8
-   testRunner.And("the unique identifier is appended to login name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("the login name \"is\" unique", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 9
   testRunner.When("the \"Register\" button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -138,7 +138,7 @@ this.ScenarioInitialize(scenarioInfo);
   testRunner.Then("the \"Registration is successful\" message pops up", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 11
-   testRunner.And("login \"can\" be performed as expected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("login \"works\" with those creds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -177,16 +177,19 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the \"register\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 15
-   testRunner.And("the fields are filled as per app config", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("the registration form is filled out", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 16
-  testRunner.When("the \"Register\" button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+   testRunner.And("the login name \"is not\" unique", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 17
-  testRunner.Then("the \"User already exists\" message pops up", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.When("the \"Register\" button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 18
-   testRunner.And("login \"cannot\" be performed as expected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.Then("the \"User already exists\" message pops up", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 19
+   testRunner.And("login \"fails\" with those creds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -201,7 +204,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Cancel User Registration", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 20
+#line 21
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -221,17 +224,23 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 21
+#line 22
  testRunner.Given("the \"register\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 22
-   testRunner.And("the fields are filled as per app config", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
 #line 23
-  testRunner.When("the \"Cancel\" button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+   testRunner.And("the registration form is filled out", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 24
+   testRunner.And("the login name \"is\" unique", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 25
+  testRunner.When("the \"Cancel\" button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 26
   testRunner.Then("the \"home\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 27
+   testRunner.And("login \"fails\" with those creds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -244,7 +253,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("field", field);
             argumentsOfScenario.Add("message", message);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Alert Required Input", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 26
+#line 29
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -264,19 +273,19 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 27
+#line 30
  testRunner.Given("the \"register\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 28
-   testRunner.And("the fields are filled as per app config", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 31
+   testRunner.And("the registration form is filled out", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 29
+#line 32
   testRunner.When(string.Format("the \"{0}\" field is cleared", field), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 30
+#line 33
   testRunner.Then(string.Format("the \"{0}\" message pops up", message), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 31
+#line 34
    testRunner.And("the \"Register\" button is disabled", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -292,7 +301,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Login is required")]
         public virtual void AlertRequiredInput_LoginName()
         {
-#line 26
+#line 29
 this.AlertRequiredInput("Login Name", "Login is required", ((string[])(null)));
 #line hidden
         }
@@ -306,7 +315,7 @@ this.AlertRequiredInput("Login Name", "Login is required", ((string[])(null)));
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "First Name is required")]
         public virtual void AlertRequiredInput_FirstName()
         {
-#line 26
+#line 29
 this.AlertRequiredInput("First Name", "First Name is required", ((string[])(null)));
 #line hidden
         }
@@ -320,7 +329,7 @@ this.AlertRequiredInput("First Name", "First Name is required", ((string[])(null
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Last Name is required")]
         public virtual void AlertRequiredInput_LastName()
         {
-#line 26
+#line 29
 this.AlertRequiredInput("Last Name", "Last Name is required", ((string[])(null)));
 #line hidden
         }
@@ -334,7 +343,7 @@ this.AlertRequiredInput("Last Name", "Last Name is required", ((string[])(null))
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Password is required")]
         public virtual void AlertRequiredInput_Password()
         {
-#line 26
+#line 29
 this.AlertRequiredInput("Password", "Password is required", ((string[])(null)));
 #line hidden
         }
@@ -348,7 +357,7 @@ this.AlertRequiredInput("Password", "Password is required", ((string[])(null)));
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Passwords do not match")]
         public virtual void AlertRequiredInput_ConfirmPassword()
         {
-#line 26
+#line 29
 this.AlertRequiredInput("Confirm Password", "Passwords do not match", ((string[])(null)));
 #line hidden
         }

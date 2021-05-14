@@ -1,7 +1,6 @@
 ﻿using BuggyCarsRating.Elements;
 using BuggyCarsRating.Pages;
 using OpenQA.Selenium;
-using System;
 using System.Configuration;
 using TechTalk.SpecFlow;
 
@@ -11,42 +10,43 @@ namespace BuggyCarsRating.Tests
     public sealed class RegisterUserSteps
     {
         private readonly RegisterPage page;
+        private readonly string password;
         private string username;
 
         public RegisterUserSteps(IWebDriver driver)
         {
             page = new RegisterPage(driver);
-            username = ConfigurationManager.AppSettings["Username"];
+            username = Hooks.Username.Replace('-', '#');
+            password = "S@m3$4Me";
         }
 
-        [Given(@"the fields are filled as per app config")]
-        public void GivenTheFieldsAreFilledAsPerAppConfig()
+        [Given(@"the registration form is filled out")]
+        public void GivenTheRegistrationFormIsFilledOut()
         {
-            page.SetRegisterInfo(ConfigurationManager.AppSettings["Username"],
-                                 ConfigurationManager.AppSettings["FirstName"],
-                                 ConfigurationManager.AppSettings["LastName"],
-                                 ConfigurationManager.AppSettings["Password"],
-                                 ConfigurationManager.AppSettings["Password"]);
+            page.SetRegisterInfo(username, ConfigurationManager.AppSettings["FirstName"], ConfigurationManager.AppSettings["LastName"], password, password);
         }
 
-        [Given(@"the unique identifier is appended to login name")]
-        public void GivenTheUniqueIdentifierIsAppendedToLoginName()
+        [Given(@"the login name ""(.*)"" unique")]
+        public void GivenTheLoginNameUnique(string condition)
         {
-            username += "-" + Guid.NewGuid().ToString("N");
-            page.SetRegisterInfo(loginName: username);
+            if (condition == "is not")
+            {
+                username = Hooks.Username;
+                page.SetRegisterInfo(loginName: username);
+            }
         }
 
         [When(@"the ""(.*)"" field is cleared")]
-        public void WhenTheFieldIsCleared(string name)
+        public void WhenTheFieldIsCleared(string field)
         {
-            var property = typeof(RegisterPage).GetProperty(name.Replace(" ", "")).GetValue(page);
+            var property = typeof(RegisterPage).GetProperty(field.Replace(" ", "")).GetValue(page);
             ((InputText)property).SetText("");
         }
 
-        [Then(@"login ""(.*)"" be performed as expected")]
-        public void ThenLoginBePerformedAsExpected(string condition)
+        [Then(@"login ""(.*)"" with those creds")]
+        public void ThenLoginWithThoseCreds(string condition)
         {
-            Utils.AssertLoginsOutcome(page, username, ConfigurationManager.AppSettings["Password"], condition);
+            Utils.AssertLoginOutcome(username, password, condition);
         }
     }
 }

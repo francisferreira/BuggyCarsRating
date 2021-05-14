@@ -6,35 +6,41 @@ namespace BuggyCarsRating.Pages
 {
     public class MakerPage : BasePage
     {
-        public MakerCard MakerCard => new MakerCard(Driver.FindElement(By.XPath("(//div[@class='container'][.//table])[2]")));
-        public CarTable ModelList => new CarTable(Driver.FindElement(By.XPath("(//div[@class='container'][.//table])[2]")));
-        public int CurrentPage => int.Parse(Regex.Match(ModelList.TablePager.TableFooter, "page (.*) of .*").Groups[1].Value);
-        public int TotalPages => int.Parse(Regex.Match(ModelList.TablePager.TableFooter, "page .* of (.*)").Groups[1].Value);
+        private bool RatingView { get; }
 
-        public MakerPage(IWebDriver driver) : base(driver)
-        { }
+        public MakerCard MakerCard => new MakerCard(Driver.FindElement(By.XPath("(//div[@class='container'][.//table])[2]")));
+        public CarTable CarTable => new CarTable(Driver.FindElement(By.XPath("(//div[@class='container'][.//table])[2]")), RatingView);
+        public int CurrentPage => int.Parse(Regex.Match(CarTable.TablePager.TableFooter, "page (.*) of .*").Groups[1].Value);
+        public int TotalPages => int.Parse(Regex.Match(CarTable.TablePager.TableFooter, "page .* of (.*)").Groups[1].Value);
+
+        public MakerPage(IWebDriver driver, bool ratingView = false) : base(driver)
+        {
+            RatingView = ratingView;
+        }
 
         public void GoToNextPage()
         {
             try
             {
-                ModelList.TablePager.Next.Click();
+                CarTable.TablePager.Next.Click();
             }
-            catch (ElementClickInterceptedException) { }
+            catch (ElementClickInterceptedException)
+            { }
         }
 
         public void GoToPrevPage()
         {
             try
             {
-                ModelList.TablePager.Prev.Click();
+                CarTable.TablePager.Prev.Click();
             }
-            catch (ElementClickInterceptedException) { }
+            catch (ElementClickInterceptedException)
+            { }
         }
 
         public void GoToPage(string page)
         {
-            ModelList.TablePager.PageNumber.SetText(page + Keys.Enter);
+            CarTable.TablePager.PageNumber.SetText(page + Keys.Enter);
         }
     }
 }

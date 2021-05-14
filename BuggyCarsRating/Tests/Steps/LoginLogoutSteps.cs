@@ -1,6 +1,7 @@
 ﻿using BuggyCarsRating.Pages;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using System;
 using System.Configuration;
 using TechTalk.SpecFlow;
 
@@ -16,16 +17,33 @@ namespace BuggyCarsRating.Tests
             page = new HomePage(driver);
         }
 
-        [When(@"logging in as ""(.*)"" with ""(.*)""")]
-        public void WhenLoggingInAsWith(string username, string password)
+        [When(@"login is done with wrong ""(.*)""")]
+        public void WhenLoginIsDoneWithWrong(string field)
         {
+            var username = Hooks.Username;
+            var password = Hooks.Password;
+            switch (field)
+            {
+                case "Username":
+                    username = "@" + username; break;
+                case "Password":
+                    password = "@" + password; break;
+                default:
+                    throw new InvalidOperationException($"Invalid regex match in SpecFlow step: {field} != [Username|Password]");
+            }
             page.Login(username, password);
         }
 
         [Then(@"""(.*)"" is displayed")]
-        public void ThenIsShown(string error)
+        public void ThenIsDisplayed(string error)
         {
             Assert.AreEqual(error, page.Header.Greeting, $"The expected error message was not displayed: {error}");
+        }
+
+        [Then(@"the login button is displayed")]
+        public void ThenTheLoginButtonIsDisplayed()
+        {
+            Assert.IsTrue(page.Header.Login.Displayed, "Logout was not performed successfully");
         }
 
         [Then(@"the expected greeting is displayed")]
@@ -33,12 +51,6 @@ namespace BuggyCarsRating.Tests
         {
             var firstname = ConfigurationManager.AppSettings["FirstName"];
             Assert.IsTrue(page.IsLogged(firstname), "Login was not performed successfully");
-        }
-
-        [Then(@"the login button is displayed")]
-        public void ThenTheLoginButtonIsDisplayed()
-        {
-            Assert.IsTrue(page.Header.Login.Displayed, "Logout was not performed successfully");
         }
     }
 }

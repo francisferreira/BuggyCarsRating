@@ -256,14 +256,19 @@ this.LoginLogoutFromPage("Register", ((string[])(null)));
 #line hidden
         }
         
-        public virtual void LoginWithInvalidCreds(string username, string password, string[] exampleTags)
+        public virtual void LoginWithInvalidCreds(string inputs, string[] exampleTags)
         {
-            string[] tagsOfScenario = exampleTags;
+            string[] @__tags = new string[] {
+                    "loggedout"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("username", username);
-            argumentsOfScenario.Add("password", password);
+            argumentsOfScenario.Add("inputs", inputs);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login With Invalid Creds", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 27
+#line 28
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -283,13 +288,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 28
+#line 29
  testRunner.Given("the \"home\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 29
-  testRunner.When(string.Format("logging in as \"{0}\" with \"{1}\"", username, password), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
 #line 30
+  testRunner.When(string.Format("login is done with wrong \"{0}\"", inputs), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 31
   testRunner.Then("\"Invalid username/password\" is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -297,28 +302,28 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Login With Invalid Creds: XX")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Login With Invalid Creds: Username")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Login & Logout")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "XX")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:username", "XX")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:password", "P4$$word")]
-        public virtual void LoginWithInvalidCreds_XX()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("loggedout")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Username")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:inputs", "Username")]
+        public virtual void LoginWithInvalidCreds_Username()
         {
-#line 27
-this.LoginWithInvalidCreds("XX", "P4$$word", ((string[])(null)));
+#line 28
+this.LoginWithInvalidCreds("Username", ((string[])(null)));
 #line hidden
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Login With Invalid Creds: FF")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Login With Invalid Creds: Password")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Login & Logout")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "FF")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:username", "FF")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:password", "password")]
-        public virtual void LoginWithInvalidCreds_FF()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("loggedout")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Password")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:inputs", "Password")]
+        public virtual void LoginWithInvalidCreds_Password()
         {
-#line 27
-this.LoginWithInvalidCreds("FF", "password", ((string[])(null)));
+#line 28
+this.LoginWithInvalidCreds("Password", ((string[])(null)));
 #line hidden
         }
     }

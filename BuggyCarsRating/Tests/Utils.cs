@@ -2,10 +2,10 @@
 using BuggyCarsRating.Pages;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Internal;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
 
@@ -13,50 +13,75 @@ namespace BuggyCarsRating.Tests
 {
     public class Utils
     {
-        public static void NavigateAwayAndBack(IWebElement goAway, IWebElement goBack, By waitAway, By waitBack)
+        public static void NavigateAwayAndBack(IWebElement goAway, IWebElement goBack)
         {
-            var wait = new WebDriverWait(Hooks.Driver, TimeSpan.FromSeconds(5));
-            Func<IWebDriver, IWebElement> func;
-
             goAway.Click();
-            func = ExpectedConditions.ElementToBeClickable(waitAway);
-            wait.Until(func);
-
+            WaitPageToLoad();
             goBack.Click();
-            func = ExpectedConditions.ElementToBeClickable(waitBack);
-            wait.Until(func);
+            WaitPageToLoad();
         }
 
-        public static void AssertLoginsOutcome(BasePage page, string username, string password, string condition)
+        public static void AssertLoginOutcome(string username, string password, string condition)
         {
+            var page = new BasePage(Hooks.Driver);
             page.Login(username, password);
 
             switch (condition)
             {
-                case "can":
+                case "works":
                     Assert.IsTrue(page.IsLogged(ConfigurationManager.AppSettings["FirstName"]), "Login failed when it should have succeeded"); break;
-                case "cannot":
+                case "fails":
                     Assert.IsFalse(page.IsLogged(ConfigurationManager.AppSettings["FirstName"]), "Login succeeded when it should have failed"); break;
                 default:
-                    throw new InvalidOperationException($"Invalid condition called by SpecFlow step: {condition}");
+                    throw new InvalidOperationException($"Invalid regex match in SpecFlow step: {condition} != [works|fails]");
             }
         }
 
-        public static void EnsureTestUserIsCreated()
+        public static void ViewModelByRating(int rank)
+        {
+            Hooks.Driver.Url = ConfigurationManager.AppSettings["Website"] + "overall";
+            WaitPageToLoad();
+
+            var tablePage = rank / 5 + (rank % 5 == 0 ? 0 : 1);
+            var posInPage = rank % 5 + (rank % 5 == 0 ? 5 : 0);
+
+            var page = new MakerPage(Hooks.Driver, true);
+            page.GoToPage(tablePage.ToString());
+
+            var watch = Stopwatch.StartNew();
+            try
+            {
+                while (watch.Elapsed < TimeSpan.FromSeconds(5))
+                    if (page.CarTable[posInPage].Rank == rank.ToString())
+                        break;
+            }
+            catch (StaleElementReferenceException)
+            { }
+            if (page.CarTable[posInPage].Rank != rank.ToString())
+                throw new ApplicationException($"Model in Rank #{rank} was not found");
+
+            page.CarTable[posInPage].Image.Click();
+            WaitPageToLoad();
+        }
+
+        public static void EnsureUserIsCreated()
         {
             Hooks.Driver.Url = ConfigurationManager.AppSettings["Website"] + "register";
             WaitPageToLoad();
 
+            Hooks.Username = ConfigurationManager.AppSettings["LoginName"] + "-" + Guid.NewGuid().ToString("N");
+            Hooks.Password = ConfigurationManager.AppSettings["OldPassword"];
+
             var page = new RegisterPage(Hooks.Driver);
-            page.SetRegisterInfo(ConfigurationManager.AppSettings["Username"],
+            page.SetRegisterInfo(Hooks.Username,
                                  ConfigurationManager.AppSettings["FirstName"],
                                  ConfigurationManager.AppSettings["LastName"],
-                                 ConfigurationManager.AppSettings["Userpass"],
-                                 ConfigurationManager.AppSettings["Userpass"]);
+                                 Hooks.Password,
+                                 Hooks.Password);
             page.CommitChanges();
         }
 
-        public static void EnsureUsersLoggedIn()
+        public static void EnsureUserLoggedIn()
         {
             var page = new BasePage(Hooks.Driver);
             try
@@ -65,12 +90,10 @@ namespace BuggyCarsRating.Tests
                     return;
             }
             catch { }
-            var username = ConfigurationManager.AppSettings["Username"];
-            var password = ConfigurationManager.AppSettings["Userpass"];
-            page.Login(username, password);
+            page.Login(Hooks.Username, Hooks.Password);
         }
 
-        public static void EnsureUsersLoggedOut()
+        public static void EnsureUserLoggedOut()
         {
             // NOTE: Logout from overall rating page is broken.
             //       I've worked around that by navigating to

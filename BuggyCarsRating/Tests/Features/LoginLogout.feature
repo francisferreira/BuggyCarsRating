@@ -24,11 +24,12 @@ Examples:
 		  | Overall  |
 		  | Register |
 
+@loggedout
 Scenario: Login With Invalid Creds
 	Given the "home" page is displayed
-	 When logging in as "<username>" with "<password>"
+	 When login is done with wrong "<inputs>"
 	 Then "Invalid username/password" is displayed
-Examples: 
-		  | username | password |
-		  | XX       | P4$$word |
-		  | FF       | password |
+Examples:
+		  | inputs   |
+		  | Username |
+		  | Password |

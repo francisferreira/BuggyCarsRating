@@ -126,7 +126,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the \"profile\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 7
-  testRunner.When("the additional info is changed as per app config", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.When("the additional info is edited", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 8
    testRunner.And("the \"Save\" button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -135,7 +135,7 @@ this.ScenarioInitialize(scenarioInfo);
   testRunner.Then("the \"The profile has been saved\" message pops up", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 10
-   testRunner.And("the new additional info is persisted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("the edited additional info is persisted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -174,31 +174,22 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the \"profile\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 14
-   testRunner.And("password is changed from \"P4$$word\" to \"P@ssW0rd\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("the user password is changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 15
   testRunner.When("the \"Save\" button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 16
-   testRunner.And("\"logout\" is performed successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.Then("the \"The profile has been saved\" message pops up", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 17
-  testRunner.Then("I \"cannot\" login using \"P4$$word\" as password", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.When("\"logout\" is performed successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 18
-   testRunner.And("I \"can\" login using \"P@ssW0rd\" as password", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.Then("login with the \"old\" password \"fails\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 19
- testRunner.Given("the \"profile\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 20
-   testRunner.And("password is changed from \"P@ssW0rd\" to \"P4$$word\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 21
-  testRunner.When("the \"Save\" button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 22
-  testRunner.Then("the \"The profile has been saved\" message pops up", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+   testRunner.And("login with the \"new\" password \"works\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -211,7 +202,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("field", field);
             argumentsOfScenario.Add("message", message);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Alert Required Input", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 24
+#line 21
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -231,16 +222,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 25
+#line 22
  testRunner.Given("the \"profile\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 26
+#line 23
   testRunner.When(string.Format("the \"{0}\" field is deleted", field), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 27
+#line 24
   testRunner.Then(string.Format("the \"{0}\" message pops up", message), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 28
+#line 25
    testRunner.And("the \"Save\" button is disabled", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -256,7 +247,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "First Name is required")]
         public virtual void AlertRequiredInput_FirstName()
         {
-#line 24
+#line 21
 this.AlertRequiredInput("First Name", "First Name is required", ((string[])(null)));
 #line hidden
         }
@@ -270,7 +261,7 @@ this.AlertRequiredInput("First Name", "First Name is required", ((string[])(null
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Last Name is required")]
         public virtual void AlertRequiredInput_LastName()
         {
-#line 24
+#line 21
 this.AlertRequiredInput("Last Name", "Last Name is required", ((string[])(null)));
 #line hidden
         }
@@ -284,7 +275,7 @@ this.AlertRequiredInput("Last Name", "Last Name is required", ((string[])(null))
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Alert Invalid Input - Age", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 34
+#line 31
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -304,23 +295,20 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 35
+#line 32
  testRunner.Given("the \"profile\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 36
-   testRunner.And("the current age is recorded for reference", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 33
+  testRunner.When("\"Th!rty\" is entered for Age", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 37
-  testRunner.When("the text \"Thirty One\" is entered for Age", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 38
+#line 34
    testRunner.And("the \"Save\" button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 39
+#line 35
   testRunner.Then("the \"Age is not valid\" message pops up", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 40
-   testRunner.And("the age info remains unchanged", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 36
+   testRunner.And("the \"age info\" remains unchanged", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -335,7 +323,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Cancel User Profile Changes", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 42
+#line 38
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -355,7 +343,7 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 43
+#line 39
  testRunner.Given("the \"profile\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -364,14 +352,17 @@ this.ScenarioInitialize(scenarioInfo);
                 table1.AddRow(new string[] {
                             "Cancel",
                             "This"});
-#line 44
+#line 40
   testRunner.When("the basic info is edited as follows", ((string)(null)), table1, "When ");
 #line hidden
-#line 47
+#line 43
    testRunner.And("the \"Cancel\" button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 48
+#line 44
   testRunner.Then("the \"home\" page is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 45
+   testRunner.And("the \"basic info\" remains unchanged", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

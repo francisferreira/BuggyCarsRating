@@ -4,22 +4,19 @@ Feature: Edit Profile
 
 Scenario: Change User Additional Info
 	Given the "profile" page is displayed
-	 When the additional info is changed as per app config
+	 When the additional info is edited
 	  And the "Save" button is clicked
 	 Then the "The profile has been saved" message pops up
-	  And the new additional info is persisted
+	  And the edited additional info is persisted
 
 Scenario: Change User Password Info
 	Given the "profile" page is displayed
-	  And password is changed from "P4$$word" to "P@ssW0rd"
-	 When the "Save" button is clicked
-	  And "logout" is performed successfully
-	 Then I "cannot" login using "P4$$word" as password
-	  And I "can" login using "P@ssW0rd" as password
-	Given the "profile" page is displayed
-	  And password is changed from "P@ssW0rd" to "P4$$word"
+	  And the user password is changed
 	 When the "Save" button is clicked
 	 Then the "The profile has been saved" message pops up
+	 When "logout" is performed successfully
+	 Then login with the "old" password "fails"
+	  And login with the "new" password "works"
 
 Scenario: Alert Required Input
 	Given the "profile" page is displayed
@@ -33,11 +30,10 @@ Examples:
 
 Scenario: Alert Invalid Input - Age
 	Given the "profile" page is displayed
-	  And the current age is recorded for reference
-	 When the text "Thirty One" is entered for Age
+	 When "Th!rty" is entered for Age
 	  And the "Save" button is clicked
 	 Then the "Age is not valid" message pops up
-	  And the age info remains unchanged
+	  And the "age info" remains unchanged
 
 Scenario: Cancel User Profile Changes
 	Given the "profile" page is displayed
@@ -46,3 +42,4 @@ Scenario: Cancel User Profile Changes
 		  | Cancel     | This      |
 	  And the "Cancel" button is clicked
 	 Then the "home" page is displayed
+	  And the "basic info" remains unchanged

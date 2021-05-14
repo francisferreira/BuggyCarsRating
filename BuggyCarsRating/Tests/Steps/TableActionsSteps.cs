@@ -10,7 +10,7 @@ namespace BuggyCarsRating.Tests
     public sealed class TableActionsSteps
     {
         private readonly MakerPage page;
-        private int listPage;
+        private int tablePage;
 
         public TableActionsSteps(IWebDriver driver)
         {
@@ -22,46 +22,45 @@ namespace BuggyCarsRating.Tests
         {
             if (position == "first")
             {
-                while (listPage > 1)
+                while (tablePage > 1)
                 {
                     page.GoToPrevPage();
-                    Assert.AreEqual(--listPage, page.CurrentPage, $"The expected list page is not displayed: {listPage}");
+                    Assert.AreEqual(--tablePage, page.CurrentPage, "The expected table page was not displayed");
                 }
                 return;
             }
             if (position == "last")
             {
                 var last = page.TotalPages;
-                while (listPage < last)
+                while (tablePage < last)
                 {
                     page.GoToNextPage();
-                    Assert.AreEqual(++listPage, page.CurrentPage, $"The expected list page is not displayed: {listPage}");
+                    Assert.AreEqual(++tablePage, page.CurrentPage, $"The expected table page was not displayed");
                 }
                 return;
             }
-            throw new InvalidOperationException($"Invalid position called by SpecFlow step: {position}");
+            throw new InvalidOperationException($"Invalid regex match in SpecFlow step: {position} != [first|last]");
         }
 
-        [When(@"the mid-page number ""(.*)"" is entered")]
-        public void WhenTheMid_PageNumberIsEntered(string method)
+        [When(@"the mid-page is reached via textbox")]
+        public void WhenTheMidPageIsReachedViaTextbox()
         {
+#pragma warning disable CS0618 // Type or member is obsolete
+            var scenario = ScenarioContext.Current.ScenarioInfo.Title;
+#pragma warning restore CS0618 // Type or member is obsolete
+
             if (page.TotalPages % 2 != 0)
-            {
-                listPage = (int)Math.Ceiling(page.TotalPages / 2d);
-            }
+                tablePage = (int)Math.Ceiling(page.TotalPages / 2d);
             else
-            {
-                switch (method)
+                switch (scenario)
                 {
-                    case "(round up)":
-                        listPage = page.TotalPages / 2 + 1; break;
-                    case "(round down)":
-                        listPage = page.TotalPages / 2; break;
-                    default:
-                        throw new InvalidOperationException($"Invalid method called by SpecFlow step: {method}");
+                    case string x when x.Contains("Backward"):
+                        tablePage = page.TotalPages / 2 + 1; break;
+                    case string x when x.Contains("Forward"):
+                        tablePage = page.TotalPages / 2; break;
                 }
-            }
-            page.GoToPage(listPage.ToString());
+
+            page.GoToPage(tablePage.ToString());
         }
 
         [When(@"the ""(.*)"" page button is clicked")]
@@ -74,30 +73,30 @@ namespace BuggyCarsRating.Tests
                 case "previous":
                     page.GoToPrevPage(); break;
                 default:
-                    throw new InvalidOperationException($"Invalid button called by SpecFlow step: {button}");
+                    throw new InvalidOperationException($"Invalid regex match in SpecFlow step: {button} != [next|previous]");
+            }
+        }
+
+        [Then(@"the page number ""(.*)"" (?:by one|as is)")]
+        public void ThenThePageNumberByOneAsIs(string action)
+        {
+            switch (action)
+            {
+                case "increases":
+                    Assert.AreEqual(++tablePage, page.CurrentPage, $"The expected table page was not displayed"); break;
+                case "decreases":
+                    Assert.AreEqual(--tablePage, page.CurrentPage, $"The expected table page was not displayed"); break;
+                case "remains":
+                    Assert.AreEqual(tablePage, page.CurrentPage, $"The expected table page was not displayed"); break;
+                default:
+                    throw new InvalidOperationException($"Invalid regex match in SpecFlow step: {action} != [increases|decreases|remains]");
             }
         }
 
         [Then(@"the expected page is displayed")]
         public void ThenTheExpectedPageIsDisplayed()
         {
-            Assert.AreEqual(listPage, page.CurrentPage, $"The expected list page is not displayed: {listPage}");
-        }
-
-        [Then(@"the current page number ""(.*)"" (?:by one|as is)")]
-        public void ThenTheCurrentPageNumberByOne(string action)
-        {
-            switch (action)
-            {
-                case "increases":
-                    Assert.AreEqual(++listPage, page.CurrentPage, $"The expected list page is not displayed: {listPage}"); break;
-                case "decreases":
-                    Assert.AreEqual(--listPage, page.CurrentPage, $"The expected list page is not displayed: {listPage}"); break;
-                case "remains":
-                    Assert.AreEqual(listPage, page.CurrentPage, $"The expected list page is not displayed: {listPage}"); break;
-                default:
-                    throw new InvalidOperationException($"Invalid action called by SpecFlow step: {action}");
-            }
+            Assert.AreEqual(tablePage, page.CurrentPage, $"The expected table page was not displayed");
         }
     }
 }

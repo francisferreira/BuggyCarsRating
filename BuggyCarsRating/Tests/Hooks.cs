@@ -22,13 +22,15 @@ namespace BuggyCarsRating.Tests
         public static IWebDriver Driver { get; set; }
         public static DateTime SttTime { get; set; }
         public static DateTime EndTime { get; set; }
+        public static string Username { get; set; }
+        public static string Password { get; set; }
 
         private static ExtentReports Report => new ExtentReports();
         private static ExtentTest Feature { get; set; }
         private static ExtentTest Scenario { get; set; }
 
         private IObjectContainer Container { get; }
-        private string Username { get; set; }
+
 
         public Hooks(IObjectContainer container)
         {
@@ -50,11 +52,11 @@ namespace BuggyCarsRating.Tests
                 case "Firefox":
                     Driver = new FirefoxDriver(); break;
                 default:
-                    throw new ConfigurationErrorsException("Unsupported/Invalid browser defined in app.config");
+                    throw new ConfigurationErrorsException("Unsupported/Invalid browser defined in app.config - Options: [Chrome|Firefox]");
             }
 
             Driver.Manage().Window.Maximize();
-            Utils.EnsureTestUserIsCreated();
+            Utils.EnsureUserIsCreated();
         }
 
         [AfterTestRun]
@@ -73,16 +75,26 @@ namespace BuggyCarsRating.Tests
             Feature = Report.CreateTest<Feature>(featureContext.FeatureInfo.Title);
         }
 
-        [BeforeFeature("loggedin")]
-        public static void BeforeFeatureLoggedIn()
-        {
-            Utils.EnsureUsersLoggedIn();
-        }
-
         [BeforeFeature("loggedout")]
         public static void BeforeFeatureLoggedOut()
         {
-            Utils.EnsureUsersLoggedOut();
+            Utils.EnsureUserLoggedOut();
+        }
+
+        [BeforeFeature("loggedin")]
+        public static void BeforeFeatureLoggedIn()
+        {
+            Utils.EnsureUserLoggedIn();
+        }
+
+        [BeforeFeature("topvoted")]
+        public static void BeforeFeatureTopVoted()
+        {
+            Utils.EnsureUserLoggedIn();
+            Utils.ViewModelByRating(1);
+
+            var page = new ModelPage(Driver);
+            page.CastVote(out string _);
         }
 
         [BeforeScenario(Order = 0)]
@@ -97,42 +109,16 @@ namespace BuggyCarsRating.Tests
             Scenario = Feature.CreateNode<Scenario>(scenarioHeading);
         }
 
-        [BeforeScenario("uniqueid", Order = 30)]
-        public void BeforeScenarioUniqueId()
-        {
-            Utils.EnsureUsersLoggedOut();
-
-            var page = new RegisterPage(Driver);
-            page.Header.Register.Click();
-
-            Username = ConfigurationManager.AppSettings["Username"] + "-" + Guid.NewGuid().ToString("N");
-
-            page.SetRegisterInfo(Username,
-                                 ConfigurationManager.AppSettings["FirstName"],
-                                 ConfigurationManager.AppSettings["LastName"],
-                                 ConfigurationManager.AppSettings["Password"],
-                                 ConfigurationManager.AppSettings["Password"]);
-            page.CommitChanges();
-            page.Login(Username, ConfigurationManager.AppSettings["Password"]);
-        }
-
         [BeforeScenario("loggedin", Order = 50)]
         public void BeforeScenarioLoggedIn()
         {
-            Utils.EnsureUsersLoggedIn();
+            Utils.EnsureUserLoggedIn();
         }
 
         [BeforeScenario("loggedout", Order = 50)]
         public void BeforeScenarioLoggedOut()
         {
-            Utils.EnsureUsersLoggedOut();
-        }
-
-        [AfterScenario("uniqueid")]
-        public void AfterScenarioUniqueId()
-        {
-            var page = new BasePage(Driver);
-            page.Logout();
+            Utils.EnsureUserLoggedOut();
         }
 
         [AfterStep]
